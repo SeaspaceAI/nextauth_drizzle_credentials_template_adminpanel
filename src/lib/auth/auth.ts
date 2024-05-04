@@ -18,7 +18,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: "Password", type: "password", },
       },
       async authorize(credentials) {
-
         const user = await db.select()
           .from(users)
           .where(eq(users.email, credentials!.email as string))
@@ -61,7 +60,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       isNewUser,
     }: {
       token: JWT;
-      user?: User | Adapter | undefined;
+      user?: User;
       account?: Account | null | undefined;
       profile?: Profile | undefined;
       isNewUser?: boolean | undefined;
@@ -69,14 +68,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       if (user) {
         token.provider = account?.provider;
+        token.role = user.role
+        token.emailVerified = user.emailVerified
+        token.firstPasswordChange = user.firstPasswordChange
       }
 
       return token;
     },
-    async session({ session, token }: { session: any; token: JWT }) {
-
+    async session({ session, token }: { session: any; token: JWT; }) {
       if (session.user) {
         session.user.provider = token.provider;
+        session.user.role = token.role;
+        session.user.emailVerified = token.emailVerified;
+        session.user.firstPasswordChange = token.firstPasswordChange;
       }
       
       return session;

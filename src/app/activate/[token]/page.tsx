@@ -34,7 +34,7 @@ export default function Activate({ params }: { params: { token: string } }) {
             className="mt-4 bg-blue-500 text-white hover:bg-blue-700 text-md uppercase font-bold px-8 py-2 rounded-md sm:mr-2 mb-1 ease-linear transition-all duration-150"
             onClick={() => signIn()}
           >
-            Sign in instead
+            Login instead
           </button>
         </div>
       )}
@@ -44,10 +44,10 @@ export default function Activate({ params }: { params: { token: string } }) {
           <p className="text-green-500 text-xl font-bold">{success}</p>
 
           <button
-            className="mt-4 bg-blue-500 text-white hover:bg-blue-700 text-md uppercase font-bold px-8 py-2 rounded-md sm:mr-2 mb-1 ease-linear transition-all duration-150"
+            className="underline mt-4 bg-blue-500 text-white hover:bg-blue-700 text-md uppercase font-bold px-8 py-2 rounded-md sm:mr-2 mb-1 ease-linear transition-all duration-150"
             onClick={() => signIn()}
           >
-            Sign in
+            Login
           </button>
         </div>
       )}

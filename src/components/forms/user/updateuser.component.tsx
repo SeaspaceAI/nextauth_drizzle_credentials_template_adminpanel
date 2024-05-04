@@ -31,8 +31,6 @@ export default function UpdateUserForm({username}: Props) {
   const {
     register,
     handleSubmit,
-    watch,
-    reset,
     formState: { errors, isSubmitting },
   } = useForm<FormSchemaType>({
     resolver: zodResolver(FormSchema),
@@ -40,7 +38,7 @@ export default function UpdateUserForm({username}: Props) {
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (values) => {
     try {
-      const { data } = await axios.post(`/api/user/${session?.user?.email}`, {
+      const { data } = await axios.put(`/api/user/${session?.user?.email}`, {
         values,
       });
 

@@ -19,7 +19,7 @@ interface ISocialButtonProps {
 export const LoginButton = () => {
   return (
     <button onClick={() => signIn()}>
-      Sign in
+      Login
     </button>
   );
 };
@@ -44,6 +44,10 @@ export const ProfileButton = ({name}:{name:string}) => {
   return <Link href={`/user/${name}`}>Profile</Link>;
 };
 
+export const AdminPanelButton = ({name}:{name:string}) => {
+  return <Link href={`/user/admin/${name}`}>Admin Panel</Link>;
+};
+
 export const AuthButton: React.FunctionComponent<ISlideButtonProps> = (props) => {
 
   const { type, text, disabled } = props;
@@ -52,18 +56,16 @@ export const AuthButton: React.FunctionComponent<ISlideButtonProps> = (props) =>
     <button
       type={type}
       disabled={disabled}
-      className="relative w-full inline-flex items-center justify-center px-8 py-4 mt-4 overflow-hidden font-medium bg-blue-500 transition duration-300 ease-out border-2 rounded-md group"
+      className="relative w-full inline-flex items-center justify-center px-8 py-2 mt-4 overflow-hidden font-medium bg-blue-700 hover:bg-blue-900 transition duration-150 ease-out rounded-md group"
     >
       {disabled ? (
-        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
       ) : (
         <>
-          <span className="absolute flex items-center justify-center w-full h-full text-white">
-            {text}
-          </span>
+          <p className="text-white">{text}</p>
         </>
       )}
     </button>

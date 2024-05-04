@@ -83,12 +83,12 @@ const ResetForm: React.FunctionComponent<IResetFormProps> = (props) => {
       </h2>
 
       <p className="text-center text-sm text-gray-600 mt-2">
-        Sign in instead? &nbsp;
+        Login instead? &nbsp;
         <Link
           href="/auth"
-          className="text-blue-600 hover:text-blue-700 hover:underline cursor-pointer"
+          className="underline text-blue-600 hover:text-blue-700 hover:underline cursor-pointer"
         >
-          Sign in
+          Login
         </Link>
       </p>
 

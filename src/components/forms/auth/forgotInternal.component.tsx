@@ -25,8 +25,7 @@ const FormSchema = z.object({
 
 type FormSchemaType = z.infer<typeof FormSchema>;
 
-const ForgotForm: React.FunctionComponent<IForgotFormProps> = (props) => {
-  const router = useRouter();
+const ForgotFormInternal: React.FunctionComponent<IForgotFormProps> = (props) => {
   const {
     register,
     handleSubmit,
@@ -46,13 +45,6 @@ const ForgotForm: React.FunctionComponent<IForgotFormProps> = (props) => {
       toast.error(error.response.data.message);
     }
   };
-  console.log(props.session)
-  console.log("props.didChangePass: ", props.didChangePass)
-
-  function onLogout(){
-    signOut()
-    router.push("/")
-  }
 
   return (
     <div className="w-full max-w-xl px-5 sm:px-20">
@@ -98,4 +90,4 @@ const ForgotForm: React.FunctionComponent<IForgotFormProps> = (props) => {
   );
 };
 
-export default ForgotForm;
+export default ForgotFormInternal;

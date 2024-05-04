@@ -12,9 +12,7 @@ interface UserToken {
 }
 
 export async function PUT(request: NextRequest){
-
   try {
-    
     const req = await request.json()
     const { token } = req;
     

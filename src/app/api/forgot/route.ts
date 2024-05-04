@@ -8,7 +8,6 @@ import { users } from "@/db/schema";
 
 export async function POST(request: NextRequest) {
   try {
-
     const req = await request.json()
     const { email } = req;
 

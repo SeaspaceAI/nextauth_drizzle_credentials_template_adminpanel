@@ -4,6 +4,7 @@ import {
   text,
   primaryKey,
   integer,
+  boolean,
 } from "drizzle-orm/pg-core"
 import type { AdapterAccount } from "next-auth/adapters" 
  
@@ -16,8 +17,22 @@ export const users = pgTable("user", {
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
   password: text("password"),
-  role: text("role").default("user")
+  role: text("role").notNull().default("user"),
+  phone: integer("phone"),
+  firstPasswordChange: boolean("firstPasswordChange").notNull().default(false),
+  groupId: text("groupId")
+  .references(() => groups.id)
 })
+
+export const groups = pgTable(
+  "group",
+  {
+    id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+    group_name: text("group_name").notNull().unique(),
+  }
+)
  
 export const accounts = pgTable(
   "account",

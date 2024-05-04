@@ -35,7 +35,7 @@ export default async function AccountPage({}: Props) {
 
       {session?.user?.provider === "credentials" && (
         <div>
-          <Link href="/auth/forgot" className="text-blue-600 underline">
+          <Link href="/reset" className="text-blue-600 underline">
             Reset password
           </Link>
         </div>

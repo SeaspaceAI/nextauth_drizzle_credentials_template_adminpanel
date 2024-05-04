@@ -7,15 +7,16 @@ interface InputProps {
   label: string;
   type: string;
   icon: JSX.Element;
-  placeholder: string;
+  placeholder?: string;
   register: any;
   error: any;
   disabled: boolean;
+  defaultValue?: string;
 }
 
 const Input: React.FunctionComponent<InputProps> = (props) => {
 
-  const { name, label, type, icon, placeholder, register, error, disabled } = props;
+  const { name, label, type, icon, placeholder, register, error, disabled, defaultValue } = props;
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -42,8 +43,9 @@ const Input: React.FunctionComponent<InputProps> = (props) => {
 
         <input
           type={showPassword ? "text" : type}
-          className="w-full py-2 pr-7 pl-8 block rounded-md border border-gray-300 outline-offset-2 outline-transparent focus:border-blue-500 focus:ring-blue-700 focus:ring-2 text-sm"
+          className="w-full py-2 pr-7 pl-8 block rounded-md border border-gray-300 outline-offset-2 outline-transparent focus:border-gray-500 focus:ring-gray-700 focus:ring-2 text-sm bg-inherit"
           placeholder={placeholder}
+          defaultValue={defaultValue}
           {...register(name)}
           style={{
             borderColor: `${error ? "#ED4337" : ""}`,

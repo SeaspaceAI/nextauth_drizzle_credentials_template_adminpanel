@@ -13,7 +13,6 @@ interface UserToken {
 
 export async function POST(request: NextRequest) {
   try {
-
     const req = await request.json()
     const { token, password } = req;
 

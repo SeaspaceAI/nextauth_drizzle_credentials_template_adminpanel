@@ -1,5 +1,5 @@
 "use client"
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import Input from "@/components/inputs/input";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -9,13 +9,8 @@ import { AuthButton } from "@/components/buttons/buttons.component";
 import { SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import { signIn } from "next-auth/react";
+import { getCsrfToken, signIn } from "next-auth/react";
 import Link from "next/link";
-
-interface ILoginFormProps {
-  callbackUrl: string | undefined;
-  csrfToken: string | undefined;
-}
 
 const FormSchema = z.object({
   email: z.string().email("Please enter a valid email adress."),
@@ -27,9 +22,14 @@ const FormSchema = z.object({
 
 type FormSchemaType = z.infer<typeof FormSchema>;
 
-const LoginForm: React.FunctionComponent<ILoginFormProps> = (props) => {
+const LoginForm: React.FunctionComponent = () => {
+  
+  const [csrfToken, setCsrfToken] = useState<string>("");
+  const callbackUrl = process.env.NEXT_PUBLIC_NEXTAUTH_URL
 
-  const { callbackUrl, csrfToken } = props;
+  useEffect(() => {
+    getCsrfToken().then(setCsrfToken);
+  }, []);
 
   const router = useRouter();
 
@@ -60,12 +60,13 @@ const LoginForm: React.FunctionComponent<ILoginFormProps> = (props) => {
   };
 
   return (
-    <div className="w-full px-12 py-4">
-
+    <div className="w-full justify-center max-w-xl px-5 sm:px-20">
+      <h2 className="text-2xl font-semibold text-center">Login</h2>
+      <p className="text-center text-gray-500 mb-8">Enter your email below to login to your account</p>
       <form
         method="post"
         action="/api/auth/signin/email"
-        className="my-8 text-sm"
+        className="text-sm"
         onSubmit={handleSubmit(onSubmit)}
       >
 
@@ -94,14 +95,14 @@ const LoginForm: React.FunctionComponent<ILoginFormProps> = (props) => {
         />
 
         <div className="mt-2 hover:underline w-fit">
-          <Link href="/auth/forgot" className=" text-blue-600">
+          <Link href="/auth/forgot" className="underline text-blue-600">
             Forgot password?
           </Link>
         </div>
         
         <AuthButton
           type="submit"
-          text="Sign in"
+          text="Login"
           disabled={isSubmitting}
         />
       </form>

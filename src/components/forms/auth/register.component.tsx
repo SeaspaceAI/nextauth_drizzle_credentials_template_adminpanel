@@ -1,7 +1,6 @@
 "use client"
 import * as React from "react";
 import Input from "@/components/inputs/input";
-import { CiUser } from "react-icons/ci";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,8 +11,15 @@ import { AuthButton } from "@/components/buttons/buttons.component";
 import { SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-hot-toast"
+import { LuUserCheck2, LuUser2 } from "react-icons/lu";
+import { CiPhone } from "react-icons/ci";
+import InputGroupSelect from "@/components/inputs/inputGroupSelect";
 
 interface IRegisterFormProps {
+  groups: {
+    id: string;
+    group_name: string;
+  }[]
 }
 
 const FormSchema = z.object({
@@ -32,13 +38,19 @@ const FormSchema = z.object({
       .string()
       .min(6, "Password must be atleast 6 characters.")
       .max(52, "Password must be less than 52 characters."),
-    confirmPassword: z.string(),
-    accept: z.literal(true, {
-      errorMap: () => ({
-        message:
-          "Please agree to all the terms and conditions before continuing.",
+    role: z
+      .string()
+      .min(4, "Add user role"),
+    phone: z
+      .string()
+      .optional()
+      .refine(value => (value), {
+        message: "Phone number must be a valid number"
       }),
-    }),
+    group: z
+      .string()
+      .optional(),
+    confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Password doesn't match",
@@ -56,6 +68,7 @@ const RegisterForm: React.FunctionComponent<IRegisterFormProps> = (props) => {
     handleSubmit,
     watch,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<FormSchemaType>({
     resolver: zodResolver(FormSchema),
@@ -63,7 +76,7 @@ const RegisterForm: React.FunctionComponent<IRegisterFormProps> = (props) => {
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (values) => {
     try {
-      const { data } = await axios.post("/api/signup", {
+      const { data } = await axios.post("/api/register", {
         ...values,
       });
 
@@ -85,17 +98,15 @@ const RegisterForm: React.FunctionComponent<IRegisterFormProps> = (props) => {
   }, [watch().password]);
 
   return (
-    <div className="w-full px-12 py-4">
+    <div className="w-full sm:px-12 py-4 max-w-3xl">
 
       <form className="my-8 text-sm" onSubmit={handleSubmit(onSubmit)}>
-
         <div className="gap-2 md:flex">
-
           <Input
             name="first_name"
             label="First name"
             type="text"
-            icon={<CiUser />}
+            icon={<LuUser2 />}
             placeholder="example"
             register={register}
             error={errors?.first_name?.message}
@@ -106,7 +117,7 @@ const RegisterForm: React.FunctionComponent<IRegisterFormProps> = (props) => {
             name="last_name"
             label="Last name"
             type="text"
-            icon={<CiUser />}
+            icon={<LuUser2 />}
             placeholder="example"
             register={register}
             error={errors?.last_name?.message}
@@ -124,6 +135,38 @@ const RegisterForm: React.FunctionComponent<IRegisterFormProps> = (props) => {
           register={register}
           error={errors?.email?.message}
           disabled={isSubmitting}
+        />
+
+        <Input
+          name="role"
+          label="Role"
+          type="text"
+          icon={<LuUserCheck2 />}
+          placeholder="example@emaple.com"
+          register={register}
+          defaultValue="user"
+          error={errors?.email?.message}
+          disabled={isSubmitting}
+        />
+
+        <Input
+          name="phone"
+          label="Phone"
+          type="number"
+          icon={<CiPhone />}
+          register={register}
+          placeholder="000 000 000"
+          error={errors?.phone?.message}
+          disabled={isSubmitting}
+        />
+
+        <InputGroupSelect
+          error={errors?.group?.message}
+          disabled={isSubmitting}
+          name="group"
+          label="Group"
+          setValue={setValue}
+          groups={props.groups}
         />
 
         <Input
@@ -175,44 +218,9 @@ const RegisterForm: React.FunctionComponent<IRegisterFormProps> = (props) => {
           disabled={isSubmitting}
         />
 
-        <div className="flex items-center mt-3">
-          <input
-            type="checkbox"
-            id="accept"
-            className="mr-2 focus:ring-0 rounded"
-            {...register("accept")}
-          />
-          <label htmlFor="accept" className="text-gray-700">
-            I accept the&nbsp;
-            <a
-              href=""
-              className="text-blue-600 hover:text-blue-700 hover:underline"
-              target="_blank"
-            >
-              terms
-            </a>
-            &nbsp;and&nbsp;
-            <a
-              href=""
-              className="text-blue-600 hover:text-blue-700 hover:underline"
-              target="_blank"
-            >
-              privacy policy
-            </a>
-          </label>
-        </div>
-
-        <div>
-          {errors?.accept && (
-            <p className="text-sm text-red-600 mt-1">
-              {errors?.accept?.message}
-            </p>
-          )}
-        </div>
-
         <AuthButton
           type="submit"
-          text="Sign up"
+          text="Register"
           disabled={isSubmitting}
         />
         
