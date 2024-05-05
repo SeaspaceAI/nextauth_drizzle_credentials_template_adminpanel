@@ -16,11 +16,19 @@ declare module "next-auth" {
     };
   }
   interface User {
+    id: string;
     name: string;
     email: string;
     image: string;
     emailVerified: date;
     role: string;
     firstPasswordChange: boolean;
+    phone: number|null;
+    groupId: string|null;
+  }
+
+  interface Group {
+    id: string;
+    group_name:string;
   }
 }

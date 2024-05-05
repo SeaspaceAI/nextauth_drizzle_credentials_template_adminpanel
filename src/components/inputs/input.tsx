@@ -11,7 +11,7 @@ interface InputProps {
   register: any;
   error: any;
   disabled: boolean;
-  defaultValue?: string;
+  defaultValue?: string | null;
 }
 
 const Input: React.FunctionComponent<InputProps> = (props) => {

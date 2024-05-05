@@ -1,11 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
-import validator from "validator";
-import bcrypt from "bcryptjs";
-import { createActivationToken } from "@/lib/utils/tokens";
-import sendMail from "@/lib/utils/sendMail";
-import { activateTemplateEmail } from "@/emailTemplates/activate";
-import { groups, users } from "@/db/schema";
+import { groups } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { auth } from "@/lib/auth/auth";
 

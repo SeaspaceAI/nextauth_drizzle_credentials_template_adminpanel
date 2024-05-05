@@ -70,7 +70,8 @@ export async function POST(request: Request){
       "",
       url,
       "Activate your account",
-      activateTemplateEmail
+      activateTemplateEmail,
+      password
     );
 
     return NextResponse.json({ message: "Register success! Email has been sent."});

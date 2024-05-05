@@ -12,14 +12,13 @@ import { SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-hot-toast"
 import { LuUserCheck2, LuUser2 } from "react-icons/lu";
-import { CiPhone } from "react-icons/ci";
 import InputGroupSelect from "@/components/inputs/inputGroupSelect";
+import { useRouter } from "next/navigation";
+import { HiOutlinePhone } from "react-icons/hi2";
+import { Group } from "next-auth";
 
 interface IRegisterFormProps {
-  groups: {
-    id: string;
-    group_name: string;
-  }[]
+  groups: Group[]
 }
 
 const FormSchema = z.object({
@@ -60,7 +59,7 @@ const FormSchema = z.object({
 type FormSchemaType = z.infer<typeof FormSchema>;
 
 const RegisterForm: React.FunctionComponent<IRegisterFormProps> = (props) => {
-
+  const router = useRouter();
   const [passwordScore, setPasswordScore] = useState(0);
 
   const {
@@ -81,7 +80,7 @@ const RegisterForm: React.FunctionComponent<IRegisterFormProps> = (props) => {
       });
 
       reset();
-
+      router.refresh();
       toast.success(data.message);
     } catch (error: any) {
       toast.error(error.response.data.message);
@@ -153,7 +152,7 @@ const RegisterForm: React.FunctionComponent<IRegisterFormProps> = (props) => {
           name="phone"
           label="Phone"
           type="number"
-          icon={<CiPhone />}
+          icon={<HiOutlinePhone />}
           register={register}
           placeholder="000 000 000"
           error={errors?.phone?.message}

@@ -6,6 +6,7 @@ import Link from 'next/link';
 
 export default async function Layout({children}: {children:ReactNode}) {
   const session = await auth();
+  console.log(session)
   if(!session){
     redirect("/auth")
   }  

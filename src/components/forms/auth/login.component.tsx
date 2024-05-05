@@ -7,10 +7,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FiLock, FiMail } from "react-icons/fi";
 import { AuthButton } from "@/components/buttons/buttons.component";
 import { SubmitHandler } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { getCsrfToken, signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   email: z.string().email("Please enter a valid email adress."),
@@ -24,14 +24,15 @@ type FormSchemaType = z.infer<typeof FormSchema>;
 
 const LoginForm: React.FunctionComponent = () => {
   
+  const router = useRouter();
   const [csrfToken, setCsrfToken] = useState<string>("");
   const callbackUrl = process.env.NEXT_PUBLIC_NEXTAUTH_URL
 
   useEffect(() => {
+    router.refresh();
     getCsrfToken().then(setCsrfToken);
   }, []);
 
-  const router = useRouter();
 
   const {
     register,
@@ -50,13 +51,13 @@ const LoginForm: React.FunctionComponent = () => {
       callbackUrl,
     });
 
-    if (res.error) {
+    if(res && res.error) {
       const err = res.error === "CredentialsSignin" ? "Email or password is not correct" : "Something went wrong" 
       return toast.error(err);
     } else {
-      return router.push("/");
+      // return redirectFunc("/")
+      return router.push("/")
     }
-
   };
 
   return (

@@ -49,23 +49,8 @@ const ForgotFormInternal: React.FunctionComponent<IForgotFormProps> = (props) =>
   return (
     <div className="w-full max-w-xl px-5 sm:px-20">
       <h2 className="text-center text-2xl font-bold tracking-wide text-gray-800">
-        Forgot password
+        Reset password
       </h2>
-
-      {props.session ? (
-          <></>
-        ) : (
-          <p className="text-center text-sm text-gray-600 mt-2">
-            Login instead?&nbsp;
-            <Link
-              href="/auth"
-              className="underline text-blue-600 hover:text-blue-700 hover:underline cursor-pointer"
-            >
-              Login
-            </Link>
-          </p>
-        )
-      }
 
       <form className="my-8 text-sm" onSubmit={handleSubmit(onSubmit)}>
         
@@ -75,9 +60,10 @@ const ForgotFormInternal: React.FunctionComponent<IForgotFormProps> = (props) =>
           type="text"
           icon={<FiMail />}
           placeholder="example@emaple.com"
+          defaultValue={props.session?.user.email}
           register={register}
           error={errors?.email?.message}
-          disabled={isSubmitting}
+          disabled={true}
         />
 
         <AuthButton

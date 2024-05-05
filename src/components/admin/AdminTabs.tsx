@@ -5,30 +5,14 @@ import { UsersTable } from '@/components/admin/UsersTable'
 import RegisterForm from '@/components/forms/auth/register.component';
 import GroupForm from '../forms/group/group.component';
 import { GroupsTable } from './GroupsTable';
+import { Group, User } from 'next-auth';
 
 type Props = {
   users: {
-    user: {
-        id: string;
-        name: string | null;
-        email: string;
-        emailVerified: Date | null;
-        image: string | null;
-        password: string | null;
-        role: string;
-        phone: number | null;
-        firstPasswordChange: boolean;
-        groupId: string | null;
-    };
-    group: {
-        id: string;
-        group_name: string;
-    } | null;
+    user: User;
+    group: Group | null;
   }[];
-  groups: {
-    id: string;
-    group_name: string;
-  }[]
+  groups: Group[];
 }
 
 export default function AdminTabs({users, groups}: Props) {
@@ -42,7 +26,7 @@ export default function AdminTabs({users, groups}: Props) {
       </TabList>
 
       <TabPanel>
-        <UsersTable users={users}/>
+        <UsersTable users={users} groups={groups}/>
       </TabPanel>
       <TabPanel className={'flex justify-center'}>
         <RegisterForm groups={groups}/>

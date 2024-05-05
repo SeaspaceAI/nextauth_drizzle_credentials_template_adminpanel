@@ -11,5 +11,4 @@ export const pool = new Pool({
   connectionString: process.env.DATABASE_URL + sslmode
 });
 
-
 export const db = drizzle(pool, { schema });

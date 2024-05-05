@@ -6,7 +6,8 @@ export default async function sendMail(
   image: string,
   url: string,
   subject: string,
-  template: string
+  template: string,
+  password?: string|null|undefined
 ) {
   const {
     MAILING_EMAIL,
@@ -35,9 +36,18 @@ export default async function sendMail(
 
   
   // html replacment
-  const emailTemplate: string = template
-  .replace("{{email_link}}", url as string)
-  .replace("{{name}}", name as string);
+  let emailTemplate = ""
+
+  if(password){
+    emailTemplate = template
+    .replace("{{email_link}}", url as string)
+    .replace("{{name}}", name as string)
+    .replace("{{password}}", password as string)
+  } else {
+    emailTemplate = template
+    .replace("{{email_link}}", url as string)
+    .replace("{{name}}", name as string)
+  }
 
   // verify connection
   await new Promise((resolve, reject) => {

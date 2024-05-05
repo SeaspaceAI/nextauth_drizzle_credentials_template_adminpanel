@@ -26,7 +26,6 @@ const FormSchema = z.object({
 type FormSchemaType = z.infer<typeof FormSchema>;
 
 const ForgotForm: React.FunctionComponent<IForgotFormProps> = (props) => {
-  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -46,34 +45,22 @@ const ForgotForm: React.FunctionComponent<IForgotFormProps> = (props) => {
       toast.error(error.response.data.message);
     }
   };
-  console.log(props.session)
-  console.log("props.didChangePass: ", props.didChangePass)
-
-  function onLogout(){
-    signOut()
-    router.push("/")
-  }
 
   return (
     <div className="w-full max-w-xl px-5 sm:px-20">
       <h2 className="text-center text-2xl font-bold tracking-wide text-gray-800">
         Forgot password
       </h2>
-
-      {props.session ? (
-          <></>
-        ) : (
-          <p className="text-center text-sm text-gray-600 mt-2">
-            Login instead?&nbsp;
-            <Link
-              href="/auth"
-              className="underline text-blue-600 hover:text-blue-700 hover:underline cursor-pointer"
-            >
-              Login
-            </Link>
-          </p>
-        )
-      }
+  
+      <p className="text-center text-sm text-gray-600 mt-2">
+        Login instead?&nbsp;
+        <Link
+          href="/auth"
+          className="underline text-blue-600 hover:text-blue-700 hover:underline cursor-pointer"
+        >
+          Login
+        </Link>
+      </p>
 
       <form className="my-8 text-sm" onSubmit={handleSubmit(onSubmit)}>
         

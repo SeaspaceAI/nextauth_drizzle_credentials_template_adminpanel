@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { Group } from 'next-auth';
 
 type Props = {
   error: any;
@@ -14,15 +15,13 @@ type Props = {
   name: string;
   label: string;
   setValue: any;
-  groups: {
-    id: string;
-    group_name: string;
-  }[]
+  groups: Group[];
+  defaultValue?: string|null;
 }
 
-export default function InputGroupSelect({error, disabled, name, label, setValue, groups}: Props) {
+export default function InputGroupSelect({error, disabled, name, label, setValue, groups, defaultValue}: Props) {
 
-  const [currentValue, setCurrentValue] = useState<string>("");
+  const [currentValue, setCurrentValue] = useState<string>(defaultValue ? defaultValue : "");
 
   useEffect(() => {
     setValue(name, currentValue)

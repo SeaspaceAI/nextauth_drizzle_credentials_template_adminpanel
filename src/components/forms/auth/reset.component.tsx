@@ -13,9 +13,11 @@ import { SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Session } from "next-auth";
 
 interface IResetFormProps {
   token: string;
+  session: Session|null;
 }
 
 const FormSchema = z.object({
@@ -60,8 +62,8 @@ const ResetForm: React.FunctionComponent<IResetFormProps> = (props) => {
 
       reset();
       toast.success(data.message);
-
-      router.push('/')
+      router.refresh();
+      router.push('/');
     } catch (error) {
       toast.error((error as Error).message);
     }
@@ -77,20 +79,24 @@ const ResetForm: React.FunctionComponent<IResetFormProps> = (props) => {
   }, [watch().password]);
 
   return (
-    <div className="w-full px-12 py-4">
+    <div className="w-full px-5 sm:px-12 py-4 max-w-3xl">
       <h2 className="text-center text-2xl font-bold tracking-wide text-gray-800">
         Reset password
       </h2>
 
-      <p className="text-center text-sm text-gray-600 mt-2">
-        Login instead? &nbsp;
-        <Link
-          href="/auth"
-          className="underline text-blue-600 hover:text-blue-700 hover:underline cursor-pointer"
-        >
-          Login
-        </Link>
-      </p>
+      {props.session ? (
+        <></>
+      ) : (
+        <p className="text-center text-sm text-gray-600 mt-2">
+          Login instead? &nbsp;
+          <Link
+            href="/auth"
+            className="underline text-blue-600 hover:text-blue-700 hover:underline cursor-pointer"
+          >
+            Login
+          </Link>
+        </p>
+      )}
 
       <form className="my-8 text-sm" onSubmit={handleSubmit(onSubmit)}>
 

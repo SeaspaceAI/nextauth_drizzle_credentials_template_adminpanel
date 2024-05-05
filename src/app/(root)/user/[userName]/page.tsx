@@ -29,7 +29,7 @@ export default async function AccountPage({}: Props) {
         <div className='w-full border-b border-b-gray-500 mb-2'>
           <p className='text-xl font-bold'>User name</p>
         </div>
-        <UpdateUserForm username={user?.name as string} />
+        <UpdateUserForm user={user} />
       </div>
 
 
