@@ -18,10 +18,9 @@ export async function POST(request: NextRequest) {
 
     const userToken = jwt.verify(token, RESET_TOKEN_SECRET!) as UserToken;
 
-    const userDb = await db.select()
-      .from(users)
-      .where(eq(users.id, userToken.id))
-      .then(res => res[0] ?? null)
+    const userDb = await db.query.users.findFirst({
+      where: eq(users.id, userToken.id)
+    })
 
     if (!userDb) {
       return NextResponse.json({ message: "This account no longer exist." }, { status: 400 });

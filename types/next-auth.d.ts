@@ -24,11 +24,11 @@ declare module "next-auth" {
     role: string;
     firstPasswordChange: boolean;
     phone: number|null;
-    groupId: string|null;
+    groupId: number|null;
   }
 
   interface Group {
-    id: string;
+    id: number;
     group_name:string;
   }
 }

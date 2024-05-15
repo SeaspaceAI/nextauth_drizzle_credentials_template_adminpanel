@@ -17,11 +17,10 @@ export async function PUT(request: NextRequest){
     const { token } = req;
     
     const userToken = jwt.verify(token, ACTIVATION_TOKEN_SECRET!) as UserToken;
-
-    const userDb = await db.select()
-      .from(users)
-      .where(eq(users.id, userToken.id))
-      .then(res => res[0] ?? null) 
+      
+    const userDb = await db.query.users.findFirst({
+      where: eq(users.id, userToken.id)
+    })
   
     if (!userDb) {
       return NextResponse.json({ message: "This account no longer exist." }, { status: 400 });

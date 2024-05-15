@@ -11,17 +11,16 @@ export async function POST(request: NextRequest) {
     const req = await request.json()
     const { email } = req;
 
-    const user = await db.select()
-      .from(users)
-      .where(eq(users.email, email))
-      .then(res => res[0] ?? null)
+    const user = await db.query.users.findFirst({
+      where: eq(users.email, email)
+    })
 
     if (!user) {
       return NextResponse.json({ message: "Something went wrong." }, { status: 400 });
     }
 
     const userId = createResetToken({
-      id: user.id.toString(),
+      id: user.id?.toString(),
     });
 
     const url = `${process.env.NEXTAUTH_URL}/reset/${userId}`;

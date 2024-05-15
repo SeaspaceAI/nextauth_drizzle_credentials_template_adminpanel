@@ -28,7 +28,7 @@ export async function PUT(req: Request, {params}:{params:{groupId:string}}){
       .set({
         group_name: group_name,
       })
-      .where(eq(groups.id, params.groupId))
+      .where(eq(groups.id, parseInt(params.groupId)))
 
     return NextResponse.json({message: "Group successfully updated"}, {status:200})
 
@@ -52,7 +52,7 @@ export async function DELETE(req: Request, {params}:{params:{groupId:string}}){
     try {
       await db
         .delete(groups)
-        .where(eq(groups.id, params.groupId));
+        .where(eq(groups.id, parseInt(params.groupId)));
 
     } catch (error) {
       return NextResponse.json({message: "Delete users from the group before deleting the group"}, {status: 500})

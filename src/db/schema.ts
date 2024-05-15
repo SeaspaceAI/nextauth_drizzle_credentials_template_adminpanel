@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm"
 import {
   timestamp,
   pgTable,
@@ -5,6 +6,7 @@ import {
   primaryKey,
   integer,
   boolean,
+  serial
 } from "drizzle-orm/pg-core"
 import type { AdapterAccount } from "next-auth/adapters" 
  
@@ -20,19 +22,28 @@ export const users = pgTable("user", {
   role: text("role").notNull().default("user"),
   phone: integer("phone"),
   firstPasswordChange: boolean("firstPasswordChange").notNull().default(false),
-  groupId: text("groupId")
+  groupId: integer("groupId")
   .references(() => groups.id)
 })
+
+export const userRelations = relations(users, ({one}) => ({
+  group: one(groups, {
+    fields: [users.groupId],
+    references: [groups.id]
+  })
+}))
 
 export const groups = pgTable(
   "group",
   {
-    id: text("id")
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
+    id: serial("id").primaryKey(),
     group_name: text("group_name").notNull().unique(),
   }
 )
+
+export const groupRelations = relations(groups, ({many}) => ({
+  users: many(users)
+}))
  
 export const accounts = pgTable(
   "account",

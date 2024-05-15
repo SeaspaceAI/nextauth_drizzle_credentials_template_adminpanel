@@ -23,10 +23,9 @@ export async function POST(request: Request){
       return NextResponse.json({ message: "Please fill in all fields." }, {status: 400});
     }
 
-    const group = await db.select()
-      .from(groups)
-      .where(eq(groups.group_name, group_name))
-      .then(res => res[0] ?? null)
+    const group  = await db.query.groups.findFirst({
+      where: eq(groups.group_name, group_name)
+    })
 
     if (group) {
       return NextResponse.json({ message: "This group already exists." }, {status: 400});

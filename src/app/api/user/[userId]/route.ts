@@ -15,13 +15,9 @@ export async function PUT(req: Request, {params}:{params:{userId:string}}){
     const body = await req.json()
     const { name, email, role, phone, group } = body;
 
-    console.log(body)
-
     if(!name){
       return NextResponse.json({message: "Missing required fields!"}, {status:400})
     }
-
-    console.log("params.userId: ", params.userId)
 
     try {
       await db

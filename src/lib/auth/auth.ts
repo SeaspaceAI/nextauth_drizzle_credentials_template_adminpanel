@@ -2,7 +2,6 @@ import bcrypt from 'bcryptjs';
 import { db } from "@/db"
 import { DrizzleAdapter } from "@auth/drizzle-adapter"
 import NextAuth, { Account, AuthError, CredentialsSignin, Profile, User } from "next-auth"
-import { Adapter } from "next-auth/adapters"
 import { JWT } from "next-auth/jwt"
 import Credentials from "next-auth/providers/credentials"
 import { users } from '@/db/schema';

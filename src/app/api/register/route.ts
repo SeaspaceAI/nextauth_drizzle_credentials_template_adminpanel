@@ -32,10 +32,9 @@ export async function POST(request: Request){
       return NextResponse.json({ message: "Please Add a valid email address." }, {status: 400});
     }
 
-    const user = await db.select()
-      .from(users)
-      .where(eq(users.email, email))
-      .then(res => res[0] ?? null)
+    const user = await db.query.users.findFirst({
+      where: eq(users.email, email)
+    })
 
     if (user) {
       return NextResponse.json({ message: "This email address already exists." }, {status: 400});

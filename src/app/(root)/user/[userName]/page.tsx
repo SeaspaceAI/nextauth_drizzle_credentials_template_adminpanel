@@ -5,6 +5,7 @@ import { auth } from '@/lib/auth/auth';
 import { db } from '@/db';
 import { users } from '@/db/schema';
 import { eq } from 'drizzle-orm';
+import { User } from 'next-auth';
 
 type Props = {}
 
@@ -14,7 +15,7 @@ export default async function AccountPage({}: Props) {
     .select()
     .from(users)
     .where(eq(users.email, session?.user?.email!))
-    .then(res => res[0] ?? null)
+    .then((res:User[]) => res[0] ?? null)
 
   return (
     <div className='w-full max-w-xl flex flex-col gap-10'>
