@@ -31,4 +31,8 @@ declare module "next-auth" {
     id: number;
     group_name:string;
   }
+
+  type UserWithGroup = User & {
+    group: Group | null;
+  }
 }

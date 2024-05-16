@@ -3,7 +3,6 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -11,13 +10,10 @@ import {
 import DeleteModal from "../modals/DeleteModal";
 import { useState } from "react";
 import EditUserModal from "../modals/EditUserModal";
-import { Group, User } from "next-auth";
+import { Group, User, UserWithGroup } from "next-auth";
 
 type Props = {
-  users: {
-    user: User;
-    group: Group | null;
-  }[];
+  users: UserWithGroup[];
   groups: Group[];
 }
 
@@ -53,19 +49,19 @@ export function UsersTable({users, groups}:Props) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {users.map((item) => (
-            <TableRow key={item.user.name}>
-              <TableCell className="font-medium text-left">{item.user.name}</TableCell>
-              <TableCell>{item.user.email}</TableCell>
-              <TableCell>{item.user.emailVerified ? item.user.emailVerified.toLocaleDateString('en-GB') : "Not verified"}</TableCell>
-              <TableCell>{item.user.firstPasswordChange.toString()}</TableCell>
-              <TableCell>{item.group ? item.group.group_name : "No group"}</TableCell>
-              <TableCell>{item.user.role}</TableCell>
+          {users.map((user) => (
+            <TableRow key={user.name}>
+              <TableCell className="font-medium text-left">{user.name}</TableCell>
+              <TableCell>{user.email}</TableCell>
+              <TableCell>{user.emailVerified ? user.emailVerified.toLocaleDateString('en-GB') : "Not verified"}</TableCell>
+              <TableCell>{user.firstPasswordChange.toString()}</TableCell>
+              <TableCell>{user.group ? user.group.group_name : "No group"}</TableCell>
+              <TableCell>{user.role}</TableCell>
               <TableCell className="flex gap-4 justify-evenly items-center text-right">
-                <button onClick={() => onClickDelete(item.user.id)}>
+                <button onClick={() => onClickDelete(user.id)}>
                   <DeleteButton />
                 </button>
-                <button onClick={() => onClickEdit(item.user)}>
+                <button onClick={() => onClickEdit(user)}>
                   <EditButton />
                 </button>
               </TableCell>

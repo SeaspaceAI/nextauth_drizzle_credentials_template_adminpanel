@@ -5,13 +5,10 @@ import { UsersTable } from '@/components/admin/UsersTable'
 import RegisterForm from '@/components/forms/auth/register.component';
 import GroupForm from '../forms/group/group.component';
 import { GroupsTable } from './GroupsTable';
-import { Group, User } from 'next-auth';
+import { Group, UserWithGroup } from 'next-auth';
 
 type Props = {
-  users: {
-    user: User;
-    group: Group | null;
-  }[];
+  users: UserWithGroup[]
   groups: Group[];
 }
 
