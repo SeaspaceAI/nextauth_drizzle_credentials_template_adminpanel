@@ -42,6 +42,7 @@ export default function EditGroupModal({show, setShow, group}: Props) {
 
   useEffect(() => {
     setValue("groupId", group?.id.toString() ?? "")
+    setValue("group_name", group?.group_name ?? "")
   }, [group])
   
 
@@ -74,7 +75,6 @@ export default function EditGroupModal({show, setShow, group}: Props) {
                   type="text"
                   icon={<GrGroup />}
                   placeholder="example"
-                  defaultValue={group.group_name}
                   register={register}
                   error={errors?.group_name?.message}
                   disabled={isSubmitting}
