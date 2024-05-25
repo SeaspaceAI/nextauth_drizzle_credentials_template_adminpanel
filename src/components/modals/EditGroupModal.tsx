@@ -41,7 +41,7 @@ export default function EditGroupModal({show, setShow, group}: Props) {
   });
 
   useEffect(() => {
-    setValue("groupId", group?.id ?? "")
+    setValue("groupId", group?.id.toString() ?? "")
   }, [group])
   
 

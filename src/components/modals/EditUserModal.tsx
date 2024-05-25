@@ -142,7 +142,7 @@ export default function EditUserModal({show, setShow, groups, user}: Props) {
                   name="group"
                   label="Group"
                   setValue={setValue}
-                  defaultValue={user.groupId}
+                  defaultValue={user.groupId?.toString()}
                   groups={groups}
                 />
 
